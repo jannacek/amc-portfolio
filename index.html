@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agustín Martínez Caram — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --off-white: #ede9e0;
+      --warm-mid: #9a9284;
+      --accent: #c5a46d;
+      --accent-dim: rgba(197,164,109,0.12);
+      --border: rgba(237,233,224,0.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--off-white);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.45;
+    }
+
+    /* ─── PROJECTS SECTION ─── */
+    .projects-section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 3rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-mid);
+    }
+
+    .section-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--warm-mid);
+      opacity: 0.5;
+    }
+
+    /* ─── PROJECT CARDS ─── */
+    .projects-grid { display: grid; gap: 0; }
+
+    .project-card {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      align-items: start;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      cursor: pointer;
+      gap: 2rem;
+      transition: background 0.4s;
+    }
+
+    .project-card:last-child { border-bottom: 1px solid var(--border); }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-dim);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .project-card:hover::after { opacity: 1; }
+
+    .card-index {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--warm-mid);
+      opacity: 0.5;
+      padding-top: 0.4rem;
+    }
+
+    .card-body { padding: 0; }
+
+    .card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .project-card:hover .card-title { color: var(--accent); }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--warm-mid);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+
+    .card-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .keyword {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      color: var(--warm-mid);
+      border-radius: 2px;
+    }
+
+    .card-arrow {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding-top: 0.4rem;
+      font-size: 1.2rem;
+      color: var(--warm-mid);
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateX(-8px);
+    }
+
+    .project-card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-visual-bar {
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      margin-top: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-visual-bar::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      background: var(--accent);
+      width: 0;
+      transition: width 0.5s ease;
+    }
+
+    .project-card:hover .card-visual-bar::after { width: 100%; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--warm-mid);
+      opacity: 0.5;
+    }
+
+    footer a {
+      color: var(--warm-mid);
+      text-decoration: none;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    footer a:hover { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .projects-section { padding: 3rem 1.5rem; }
+      .project-card { grid-template-columns: 1fr; gap: 0.5rem; }
+      .card-arrow, .card-index { display: none; }
+      footer { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="projects-section">
+    <div class="section-header">
+      <span class="section-title">Agustín Martínez Caram</span>
+      <span class="section-count">05</span>
+    </div>
+
+    <div class="projects-grid">
+
+      <a href="at-lab-i.html" class="project-card">
+        <span class="card-index">01</span>
+        <div class="card-body">
+          <p class="card-tag">Art & Technology Lab · Community · Sensor-Based Installation</p>
+          <h2 class="card-title">AT-LAB I</h2>
+          <p class="card-desc">A 3-day participatory art and technology lab in the province of Groningen — a custom-built immersive space where ~50 community participants shaped sound, light, and visuals through body movement and heartbeat sensors. Part of the NWO-funded HLaS research project.</p>
+          <div class="card-keywords">
+            <span class="keyword">Community</span>
+            <span class="keyword">Sensor Technology</span>
+            <span class="keyword">Sound & Light</span>
+            <span class="keyword">HLaS / NWO</span>
+            <span class="keyword">2023</span>
+          </div>
+          <div class="card-visual-bar"></div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="pele.html" class="project-card">
+        <span class="card-index">02</span>
+        <div class="card-body">
+          <p class="card-tag">Field Research · Landscape · Iceland</p>
+          <h2 class="card-title">Pele</h2>
+          <p class="card-desc">A field research expedition across Iceland's volcanic landscape — from lava tubes at Lofthellir to the geothermal shores of Mývatn and the ancient rifts of Þingvellir. Named after the goddess of volcanoes, the project investigates primordial geological forces as data systems.</p>
+          <div class="card-keywords">
+            <span class="keyword">Volcanic Landscape</span>
+            <span class="keyword">Field Research</span>
+            <span class="keyword">Iceland</span>
+            <span class="keyword">Geological Data</span>
+            <span class="keyword">2023</span>
+          </div>
+          <div class="card-visual-bar"></div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="stone-nest.html" class="project-card">
+        <span class="card-index">03</span>
+        <div class="card-body">
+          <p class="card-tag">Spatial Audio · 4DSOUND · Residency · London</p>
+          <h2 class="card-title">Stone Nest</h2>
+          <p class="card-desc">A 5-day residential course at Stone Nest, Soho, working within a bespoke 4DSOUND system — exploring spatial audio as a creative medium. Organised by Amoenus in collaboration with the Amsterdam-based 4DSOUND studio, culminating in a public closing concert.</p>
+          <div class="card-keywords">
+            <span class="keyword">4DSOUND</span>
+            <span class="keyword">Spatial Audio</span>
+            <span class="keyword">Residency</span>
+            <span class="keyword">London</span>
+            <span class="keyword">2023</span>
+          </div>
+          <div class="card-visual-bar"></div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="data-resonance.html" class="project-card">
+        <span class="card-index">04</span>
+        <div class="card-body">
+          <p class="card-tag">Sound · Data · Performance</p>
+          <h2 class="card-title">Data Resonance</h2>
+          <p class="card-desc">A practice-based research project exploring data surveillance, data dignity, and the emotionality of data through psychoacoustics and performative sonification. Motivated by the societal implications of the Covid-19 pandemic and the 1.5-metre society.</p>
+          <div class="card-keywords">
+            <span class="keyword">Psychoacoustics</span>
+            <span class="keyword">Sonification</span>
+            <span class="keyword">Data Dignity</span>
+            <span class="keyword">KIEM 2020</span>
+            <span class="keyword">2020 – 2021</span>
+          </div>
+          <div class="card-visual-bar"></div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="luna.html" class="project-card">
+        <span class="card-index">05</span>
+        <div class="card-body">
+          <p class="card-tag">AI · Projection Mapping · Visual Storytelling · Festival</p>
+          <h2 class="card-title">Luna</h2>
+          <p class="card-desc">Des-illu(minat)/s-ion(s) — a site-specific spatial projection commissioned by Media Art Friesland for LUNA Festival 2019 in Leeuwarden. Historical data about the Blokhuispoort was processed through machine learning to generate an AI-authored narrative, translated back into a moving image projected on the building's walls.</p>
+          <div class="card-keywords">
+            <span class="keyword">AI / Machine Learning</span>
+            <span class="keyword">Projection Mapping</span>
+            <span class="keyword">Leeuwarden</span>
+            <span class="keyword">Arvustin Caramdersson</span>
+            <span class="keyword">2019</span>
+          </div>
+          <div class="card-visual-bar"></div>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© Agustín Martínez Caram</p>
+    <p><a href="mailto:marcelo.agustin@gmail.com">marcelo.agustin@gmail.com</a></p>
+  </footer>
+
+</body>
+</html>

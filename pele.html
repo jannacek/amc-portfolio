@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pele — Agustín Martínez Caram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --black: #080808; --off-white: #ede9e0; --warm-mid: #9a9284; --accent: #e07a40; --accent-dim: rgba(224,122,64,0.08); --border: rgba(237,233,224,0.1); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--off-white); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.65; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.45; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; }
+    .nav-back { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .nav-back:hover { color: var(--off-white); }
+    .project-hero { position: relative; z-index: 1; padding: 6rem 3rem 4rem; max-width: 1280px; margin: 0 auto; }
+    .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 10vw, 10rem); font-weight: 300; line-height: 0.88; letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .project-title em { font-style: italic; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .meta-value { font-size: 0.88rem; color: var(--off-white); }
+    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
+
+    /* HERO VISUAL — volcanic terrain */
+    .hero-visual {
+      width: 100%; height: 55vh; min-height: 320px;
+      background: radial-gradient(ellipse at 30% 70%, #2a0800 0%, #0d0200 50%, #080808 100%);
+      border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lava-lines { position: absolute; inset: 0; }
+    .lava-line {
+      position: absolute; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0; animation: lavaFlow 4s ease-in-out infinite;
+    }
+    @keyframes lavaFlow { 0%,100% { opacity: 0; transform: scaleX(0.3); } 50% { opacity: 0.4; transform: scaleX(1); } }
+    .hero-visual-label { position: absolute; bottom: 1.5rem; left: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+
+    .text-columns { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+    .col-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); padding-top: 0.3rem; }
+    .col-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 1.2rem; }
+    .col-content p { font-size: 0.9rem; color: var(--warm-mid); line-height: 1.8; margin-bottom: 1rem; }
+    .col-content p:last-child { margin-bottom: 0; }
+    .col-content blockquote { border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--off-white); line-height: 1.5; }
+
+    /* FULL-BLEED 2-COL GRID */
+    .image-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 1px; background: var(--border); }
+    .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-slot { background: #0f0f0f; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .image-slot.tall { aspect-ratio: 3/4; }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
+    .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
+
+    /* LOCATION CARDS */
+    .locations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .location-card { background: #0c0c0c; padding: 2rem 1.5rem; position: relative; }
+    .location-num { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--accent); margin-bottom: 0.8rem; letter-spacing: 0.1em; }
+    .location-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; }
+    .location-desc { font-size: 0.8rem; color: var(--warm-mid); line-height: 1.6; }
+
+    .wide-image { width: 100%; height: 45vh; min-height: 280px; background: #0f0f0f; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-slot { width: 100%; background: #0f0f0f; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; }
+    .video-slot video { width: 100%; height: 100%; object-fit: cover; }
+    .video-placeholder { text-align: center; }
+    .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
+    .video-placeholder p { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+    .project-nav { border-top: 1px solid var(--border); padding: 2.5rem 3rem; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .project-nav a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .project-nav a:hover { color: var(--off-white); }
+    @media (max-width: 768px) {
+      nav, .project-hero, .content-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .text-columns { grid-template-columns: 1fr; gap: 2rem; }
+      .image-grid-2, .image-grid-3 { grid-template-columns: 1fr; }
+      .locations-grid { grid-template-columns: 1fr 1fr; }
+      .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">← AMC Portfolio</a>
+    <a href="index.html" class="nav-back">All Projects</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-tag">02 — Field Research · Volcanic Landscape · Iceland</p>
+    <h1 class="project-title">Pele</h1>
+
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Year</span><span class="meta-value">2023</span></div>
+      <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Field Research Expedition</span></div>
+      <div class="meta-item"><span class="meta-label">Location</span><span class="meta-value">Iceland</span></div>
+      <div class="meta-item"><span class="meta-label">Sites</span><span class="meta-value">Lofthellir · Mývatn · Snaefellsness · Þingvellir</span></div>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+
+    <div class="wide-image" style="margin-bottom:1px;">
+      <img src="pele_0625.jpg" alt="Team traversing Icelandic volcanic landscape toward fog-covered mountain" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Iceland expedition — volcanic traverse</span>
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">Concept</span>
+      <div class="col-content">
+        <h3>Planetary analog research in lava tubes</h3>
+        <p>
+          PELE — <em>Planetary Analogs & Exobiology Lava Tube Expedition</em> — is a scientific research project investigating Icelandic lava caves as analog environments for Mars. Lava tubes on Earth offer stable, sheltered conditions isolated from surface radiation, making them among the most compelling analogues for where life might persist on other planets.
+        </p>
+        <p>
+          The scientific programme combines DNA sequencing, mass spectrometry, and spectroscopy (XRF, XRD, Raman) to correlate biological and mineralogical data — mapping microbial communities, identifying biosignatures, and developing sampling protocols for these fragile subterranean environments. The work was presented at the 3rd Astrobiology Graduates in Europe (AbGradE) symposium in Berlin, 2018, and involves researchers from Utrecht University, Uppsala University, Stockholm University, CNRS France, Columbia University, DLR, and the University of Akureyri.
+        </p>
+        <blockquote>
+          Lava tubes provide stable, sheltered environments protected from radiation on the surface. Their microbial mats regulate conditions for life — allowing communities with different metabolisms to coexist.
+        </blockquote>
+        <p>
+          Agustín Martínez's contribution focuses on the Iceland expedition — the artistic research dimension of fieldwork conducted in lava caves, including ice sampling, geological documentation, and a unique experiment: playing music inside the lava tubes for microbes, exploring how acoustic vibration might affect microbial activity.
+        </p>
+      </div>
+    </div>
+
+    <!-- Cave entrance + sampling pair -->
+    <div class="image-grid-2">
+      <div class="image-slot tall">
+        <img src="pele_0126.jpg" alt="Team entering Lofthellir lava cave with ice inside" />
+        <span class="image-slot-label">Lofthellir cave entrance — Lofthellir, Iceland</span>
+      </div>
+      <div class="image-slot tall">
+        <img src="pele_0104.jpg" alt="Researcher descending into cave opening" />
+        <span class="image-slot-label">Cave descent — lava tube access point</span>
+      </div>
+    </div>
+    <!-- Three sampling close-ups -->
+    <div class="image-grid-3">
+      <div class="image-slot">
+        <img src="pele_0298.jpg" alt="Researcher sampling lava cave wall" />
+        <span class="image-slot-label">Wall sampling — Lofthellir cave</span>
+      </div>
+      <div class="image-slot">
+        <img src="pele_0361.jpg" alt="Two researchers sampling cave wall with headlamps" />
+        <span class="image-slot-label">Joint sampling — lava cave interior</span>
+      </div>
+      <div class="image-slot">
+        <img src="pele_0693.jpg" alt="Rock sample collected in bag inside lava cave" />
+        <span class="image-slot-label">Rock sample collection — Lofthellir</span>
+      </div>
+    </div>
+
+    <!-- LOCATIONS -->
+    <div class="locations-grid">
+      <div class="location-card">
+        <p class="location-num">01 / LOFTHELLIR</p>
+        <h3 class="location-name">Lava Cave</h3>
+        <p class="location-desc">An ancient lava tube beneath the Icelandic highlands — a subterranean architecture formed by flowing basalt, preserving ice formations thousands of years old.</p>
+      </div>
+      <div class="location-card">
+        <p class="location-num">02 / MÝVATN</p>
+        <h3 class="location-name">Geothermal Lake</h3>
+        <p class="location-desc">Lake Mývatn sits atop an active volcanic zone, its waters heated from below. A landscape caught between stillness and constant thermal agitation.</p>
+      </div>
+      <div class="location-card">
+        <p class="location-num">03 / SNAEFELLSNESS</p>
+        <h3 class="location-name">Glacier Volcano</h3>
+        <p class="location-desc">The Purkholahraun lava field beside the Snaefellsjökull glacier — ice and fire in permanent adjacency. Jules Verne's gateway to the centre of the Earth.</p>
+      </div>
+      <div class="location-card">
+        <p class="location-num">04 / ÞINGVELLIR</p>
+        <h3 class="location-name">Tectonic Rift</h3>
+        <p class="location-desc">The valley where the Eurasian and North American plates visibly diverge — walking between continents, inside the seam of the world.</p>
+      </div>
+    </div>
+
+    <!-- VIDEO: Ice sampling shorts -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:1px;background:var(--border);">
+      <div style="background:#0d0b08;aspect-ratio:9/16;position:relative;overflow:hidden;">
+        <iframe src="https://www.youtube.com/embed/QYXa8bXHzWc" title="Ice sampling — Lofthellir cave" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;"></iframe>
+      </div>
+      <div style="background:#0d0b08;aspect-ratio:9/16;position:relative;overflow:hidden;">
+        <video controls style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <source src="pele_sampling_ice.mov" type="video/mp4" />
+        </video>
+        <span style="position:absolute;bottom:0.8rem;left:0.8rem;font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:var(--off-white);opacity:0.4;pointer-events:none;">Ice sampling — lava tube, Iceland</span>
+      </div>
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">Methodology</span>
+      <div class="col-content">
+        <h3>Music for microbes — sound as research instrument</h3>
+        <p>
+          Beyond biological sampling, Agustín's contribution to PELE introduces an artistic research dimension: playing music inside the lava tubes for microbes. The experiment explores whether acoustic vibration might affect microbial activity in cave ecosystems — positioning sound not as documentation but as an active agent in the research process.
+        </p>
+        <p>
+          The field methodology combined ice and rock sampling (using sterile Whirl-Pak bags and collection vials for lab analysis), geological documentation, audio field recording, and direct physical engagement with the cave environments. Each site — from the ice-floored chambers of Lofthellir to the open lava fields of Purkholahraun — was approached both as scientific site and as perceptual landscape.
+        </p>
+        <p>
+          This dual register — rigorous scientific protocol alongside artistic practice — is central to the project's inquiry: what happens when you bring music into a space that hasn't heard it in geological time?
+        </p>
+      </div>
+    </div>
+
+    <!-- Wide landscape -->
+    <div class="wide-image">
+      <img src="pele_0395.jpg" alt="Research group resting on mossy lava field, Atlantic ocean in background" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Purkholahraun lava field — Snaefellsness, Iceland</span>
+    </div>
+
+    <!-- Final image row: samples + cave ice -->
+    <div class="image-grid-3" style="margin-bottom:5rem;">
+      <div class="image-slot">
+        <img src="pele_0696.jpg" alt="Ice sample vials held at cave floor" />
+        <span class="image-slot-label">Ice sample collection — Lofthellir</span>
+      </div>
+      <div class="image-slot">
+        <img src="pele_0734.jpg" alt="Researcher holding sample bag with thumbs up in cave" />
+        <span class="image-slot-label">Collected samples — lava tube</span>
+      </div>
+      <div class="image-slot" style="position:relative;overflow:hidden;aspect-ratio:4/3;">
+        <iframe src="https://www.youtube.com/embed/Z5I8qOrniR4" title="Music for microbes — lava tube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;border:none;"></iframe>
+        <span style="position:absolute;bottom:0.8rem;left:0.8rem;font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:var(--off-white);opacity:0.4;pointer-events:none;z-index:2;">Playing music for microbes — cave, Iceland</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="project-nav">
+    <a href="at-lab-i.html">← AT-LAB I</a>
+    <a href="stone-nest.html">Next: Stone Nest →</a>
+  </div>
+
+
+</body>
+</html>

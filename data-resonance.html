@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Resonance — Agustín Martínez Caram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --off-white: #ede9e0;
+      --warm-mid: #9a9284;
+      --accent: #c5a46d;
+      --accent-dim: rgba(197,164,109,0.08);
+      --border: rgba(237,233,224,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--off-white); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.65; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.45; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; }
+    .nav-back { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .nav-back:hover { color: var(--off-white); }
+
+    /* HERO */
+    .project-hero { position: relative; z-index: 1; padding: 6rem 3rem 4rem; max-width: 1280px; margin: 0 auto; }
+    .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 300; line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .project-title em { font-style: italic; }
+
+    /* META ROW */
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .meta-value { font-size: 0.88rem; color: var(--off-white); }
+
+    /* CONTENT */
+    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
+
+    /* VISUAL PLACEHOLDER */
+    .hero-visual {
+      width: 100%;
+      height: 55vh;
+      min-height: 320px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      margin-bottom: 5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Animated waveform for Data Resonance */
+    .waveform { display: flex; align-items: center; gap: 3px; height: 120px; }
+    .wave-bar {
+      width: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: wave 1.4s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.15); }
+      50% { transform: scaleY(1); }
+    }
+    .hero-visual-label {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm-mid);
+      opacity: 0.4;
+    }
+
+    /* IMAGE GRID */
+    .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-slot {
+      background: #0f0f0f;
+      aspect-ratio: 4/3;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-slot-label {
+      position: absolute;
+      bottom: 0.8rem;
+      left: 0.8rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--warm-mid);
+      opacity: 0.5;
+    }
+    .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
+
+    /* TEXT COLUMNS */
+    .text-columns { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+    .col-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); padding-top: 0.3rem; }
+    .col-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 1.2rem; }
+    .col-content p { font-size: 0.9rem; color: var(--warm-mid); line-height: 1.8; margin-bottom: 1rem; }
+    .col-content p:last-child { margin-bottom: 0; }
+    .col-content blockquote {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--off-white);
+      line-height: 1.5;
+    }
+
+    /* WIDE IMAGE */
+    .wide-image {
+      width: 100%;
+      height: 45vh;
+      min-height: 280px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      margin-bottom: 5rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* VIDEO SLOT */
+    .video-slot { width: 100%; background: #0d0b08; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+      width: 100%;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+      margin-bottom: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .video-slot video { width: 100%; height: 100%; object-fit: cover; }
+    .video-placeholder { text-align: center; }
+    .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
+    .video-placeholder p { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+
+    /* RESEARCH QUESTIONS */
+    .questions-block { border-top: 1px solid var(--border); padding-top: 3rem; margin-bottom: 5rem; }
+    .questions-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 2rem; color: var(--warm-mid); }
+    .question-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .question-list li { display: flex; gap: 1.5rem; align-items: baseline; }
+    .q-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--accent); min-width: 2rem; }
+    .q-text { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; line-height: 1.4; }
+
+    /* PARTNERS */
+    .partners-row { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; }
+    .partners-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); margin-right: 1rem; }
+    .partner-badge { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; border: 1px solid var(--border); padding: 0.35rem 0.8rem; color: var(--warm-mid); border-radius: 2px; }
+
+    /* NAV BETWEEN PROJECTS */
+    .project-nav { border-top: 1px solid var(--border); padding: 2.5rem 3rem; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .project-nav a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .project-nav a:hover { color: var(--off-white); }
+
+    @media (max-width: 768px) {
+      nav, .project-hero, .content-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .text-columns { grid-template-columns: 1fr; gap: 2rem; }
+      .image-grid { grid-template-columns: 1fr 1fr; }
+      .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">← AMC Portfolio</a>
+    <a href="index.html" class="nav-back">All Projects</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-tag">01 — Sound · Data · Performance · Sonification</p>
+    <h1 class="project-title">Data Resonance<br><em>The Signal and<br>Noise of Emotion</em></h1>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-value">2020 — 2021</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Type</span>
+        <span class="meta-value">Practice-Based Research</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Funding</span>
+        <span class="meta-value">KIEM 2020 / Hanze Hogeschool</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Institution</span>
+        <span class="meta-value">Minerva Academy, Groningen</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Collaborators</span>
+        <span class="meta-value">Hannes Andersson (Arvustin Caramdersson)</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+
+    <!-- HERO VISUAL -->
+    <div class="wide-image" style="height:65vh;margin-bottom:5rem;">
+      <img src="dr_insta.png" alt="Data Resonance — network data visualisation with human silhouettes" style="object-fit:contain;background:#f5f5f0;" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--black);opacity:0.4;">Data Resonance — spatial data network visualisation</span>
+    </div>
+
+    <!-- ABSTRACT -->
+    <div class="text-columns">
+      <span class="col-label">Abstract</span>
+      <div class="col-content">
+        <h3>Is data inherently emotional?</h3>
+        <p>
+          This practice-based research project is driven by the Lectoraat of the Minerva Faculty of Hanze Hogeschool in Groningen and funded by the Knowledge Innovation Mapping (KIEM 2020), led by Hannes Andersson and Marcelo Agustín Martínez, supervised by Prof. Anke Coumans and Ruud Akse.
+        </p>
+        <p>
+          It explores the themes of data surveillance, data dignity, the emotionality of data and its resonance in embodied experience — through psychoacoustics and performative sonification. Motivated by the societal implications of the Covid-19 pandemic and the continuing importance and implications of data in the context of security and governance.
+        </p>
+        <blockquote>
+          By making apparent and transparent how a surveillance machine collects data in a defined space through emotional resonance — does this create a more embodied experience in relation to data, defined by its emotional affect and our relationship to a space shared with surveillance technologies?
+        </blockquote>
+        <p>
+          This 11-month project took place throughout 2021. It aimed to be a collaborative project across prominent institutions in the Netherlands, including Hanze Hogeschool, RE:Search Gallery, STEIM, and Waag.
+        </p>
+      </div>
+    </div>
+
+    <!-- IMAGE GRID: 3 images -->
+    <div class="image-grid">
+      <div class="image-slot">
+        <img src="dr_poster_lab3.jpg" alt="Data Resonance Lab III Open LAB @ MOBi — event poster" />
+        <span class="image-slot-label">Lab III 'Open LAB' @ MOBi — October 2021</span>
+      </div>
+      <div class="image-slot">
+        <img src="dr_sticker.jpg" alt="Data Resonance network graphic — sticker design" />
+        <span class="image-slot-label">Data Resonance — project graphic</span>
+      </div>
+      <div class="image-slot">
+        <img src="dr_casella.png" alt="Casella by Pozyx — real-time connection graph showing participant spread index" style="object-fit:contain;background:#f0f0ee;" />
+        <span class="image-slot-label">Casella / Pozyx — real-time proximity tracking interface</span>
+      </div>
+    </div>
+
+    <!-- RESEARCH QUESTIONS -->
+    <div class="questions-block">
+      <h3>Research Questions</h3>
+      <ul class="question-list">
+        <li>
+          <span class="q-num">01</span>
+          <span class="q-text">Is data emotion? Is data inherently emotional — and can a translation of a string of data into audio-visual mediums reveal this?</span>
+        </li>
+        <li>
+          <span class="q-num">02</span>
+          <span class="q-text">Does a more transparent way of collecting data — treating data as an emotional substance — result in an embodied experience that changes our feeling of safety?</span>
+        </li>
+        <li>
+          <span class="q-num">03</span>
+          <span class="q-text">Could data be "felt" and fed back onto the environment, rather than be collected, analysed, and systematically enforced?</span>
+        </li>
+        <li>
+          <span class="q-num">04</span>
+          <span class="q-text">What would happen if the relative movements of each individual would act upon a shared soundscape — producing harmony or disharmony based on spatial proximity?</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="text-columns">
+      <span class="col-label">Methodology</span>
+      <div class="col-content">
+        <h3>Sound, Light & the Dance Floor</h3>
+        <p>
+          To investigate these questions, the project translates real-time spatial data into sounds and lights played back within — and present in — the environment. The chosen mediums, sound and light, were selected for their capacity to generate instinctual emotional responses and their structural coherence as data outputs.
+        </p>
+        <p>
+          The project draws on an unlikely model: the dance floor. Large groups of people on a dance floor can coordinate complex movement in complete freedom — without instruction — guided only by a shared soundscape. This self-organisation demonstrates that harmony and rhythm can act as distributed, embodied regulatory systems.
+        </p>
+        <p>
+          What would happen if spatial relationships — distance between people — were translated into musical notes? What if closeness produced dissonance, and safe distance produced harmony? The research explores this feedback loop as a form of emotional, non-coercive governance.
+        </p>
+      </div>
+    </div>
+
+    <!-- INFO SHEET -->
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;">
+      <img src="dr_info_sheet.png" alt="Data Resonance project info sheet — general info, abstract, sponsors" style="object-fit:contain;background:#f5f5f0;width:100%;height:auto;display:block;" />
+    </div>
+
+    <!-- VIDEO: STAMPA #17 presentation -->
+    <div class="video-slot" style="margin-top:5rem;">
+      <iframe src="https://www.youtube.com/embed/BoC_Y6nXY64" title="Data Resonance & Dronin v1.0 — STAMPA #17 @ MOBi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;border:none;"></iframe>
+    </div>
+
+    <!-- THEORETICAL FRAMEWORK -->
+    <div class="text-columns">
+      <span class="col-label">Framework</span>
+      <div class="col-content">
+        <h3>The 1.5-Metre Society — and Dronin v.1.0</h3>
+        <p>
+          In the context of the Covid-19 era, a new paradigm of public space in relation to safety was being reassessed in an already data-driven world. Governments relied on data to make decisions they deemed best to protect populations — but this reliance raised profound questions about privacy, dignity, and the relationship between data and the individual body.
+        </p>
+        <p>
+          The project positions itself against purely extractive models of data collection. It asks: what if surveillance could be redesigned to create a more transparent, local, "closed-circuit" system — where data, rather than only being collected, is translated into a signal beamed back to the individuals it concerns? Using drones as a reference point — dystopian surveillance instruments reimagined as artistic tools — the project deconstructs data collection through a subversive and trans-disciplinary view.
+        </p>
+        <p>
+          This culminated in a presentation at <strong>STAMPA #17</strong> at MOBi (NP3/RE:Search Gallery, Groningen), where both <em>Data Resonance</em> and <em>Dronin v.1.0</em> were presented. Dronin is an autonomously flying musical instrument — a drone equipped with a positional sensor that translates its spatial data into an audio signal, playing music as it flies a pre-programmed path through the air. Made with support from DroneHub GAE, with Hannes Andersson and Martin Kloos.
+        </p>
+      </div>
+    </div>
+
+
+
+    <!-- PARTNERS -->
+    <div class="partners-row">
+      <span class="partners-label">Partners</span>
+      <span class="partner-badge">Minerva Academy / Hanze Hogeschool</span>
+      <span class="partner-badge">RE:Search Gallery / NP3</span>
+      <span class="partner-badge">STEIM</span>
+      <span class="partner-badge">Waag</span>
+      <span class="partner-badge">OMNI-Drones BV</span>
+      <span class="partner-badge">Frank Mohr Institute</span>
+      <span class="partner-badge">ARC North</span>
+      <span class="partner-badge">KIEM 2020 / NWO</span>
+      <a href="https://www.np3.nu/data-resonance-open-lab-iii/" target="_blank" class="partner-badge" style="border-color:var(--accent);color:var(--off-white);text-decoration:none;">NP3 documentation ↗</a>
+    </div>
+  </div>
+
+  <div class="project-nav">
+    <a href="stone-nest.html">← Stone Nest</a>
+    <a href="luna.html">Next: Luna →</a>
+  </div>
+
+
+</body>
+</html>

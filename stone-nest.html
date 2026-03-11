@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stone Nest, 4DSOUND & Amoenus — Exploring Spatial Sound — Agustín Martínez Caram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --black: #080808; --off-white: #ede9e0; --warm-mid: #9a9284; --accent: #8ab0a0; --accent-dim: rgba(138,176,160,0.08); --border: rgba(237,233,224,0.1); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--off-white); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.65; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.45; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; }
+    .nav-back { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .nav-back:hover { color: var(--off-white); }
+    .project-hero { position: relative; z-index: 1; padding: 6rem 3rem 4rem; max-width: 1280px; margin: 0 auto; }
+    .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 8rem); font-weight: 300; line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .project-title em { font-style: italic; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .meta-value { font-size: 0.88rem; color: var(--off-white); }
+    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
+
+    /* HERO — spatial audio wave */
+    .hero-visual { width: 100%; height: 55vh; min-height: 320px; background: #070d0b; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .ring-container { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .ring { position: absolute; border: 1px solid var(--accent); border-radius: 50%; animation: expand 4s ease-out infinite; opacity: 0; }
+    @keyframes expand { 0% { opacity: 0.5; transform: scale(0.1); } 100% { opacity: 0; transform: scale(1.5); } }
+    .hero-visual-label { position: absolute; bottom: 1.5rem; left: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+
+    .text-columns { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+    .col-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); padding-top: 0.3rem; }
+    .col-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 1.2rem; }
+    .col-content p { font-size: 0.9rem; color: var(--warm-mid); line-height: 1.8; margin-bottom: 1rem; }
+    .col-content p:last-child { margin-bottom: 0; }
+    .col-content blockquote { border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--off-white); line-height: 1.5; }
+
+    .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-slot { background: #0a0f0d; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .image-slot.wide-ratio { aspect-ratio: 16/9; }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
+    .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
+
+    /* PROGRAMME DAYS */
+    .programme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .day-card { background: #0a0f0d; padding: 2rem 1.5rem; }
+    .day-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--accent); margin-bottom: 0.6rem; letter-spacing: 0.1em; }
+    .day-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.6rem; line-height: 1.2; }
+    .day-desc { font-size: 0.78rem; color: var(--warm-mid); line-height: 1.6; }
+
+    /* PARTICIPANTS LIST */
+    .participants-block { border: 1px solid var(--border); padding: 2.5rem; margin-bottom: 5rem; }
+    .participants-block h3 { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); margin-bottom: 1.5rem; }
+    .participants-list { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .participant { font-size: 0.85rem; color: var(--warm-mid); padding: 0.3rem 0.8rem; border: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; }
+    .participant.highlight { border-color: var(--accent); color: var(--off-white); }
+
+    .wide-image { width: 100%; height: 45vh; min-height: 280px; background: #0a0f0d; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-slot { width: 100%; background: #0a0f0d; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .video-slot video { width: 100%; height: 100%; object-fit: cover; }
+    .video-placeholder { text-align: center; }
+    .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
+    .video-placeholder p { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+    .partners-row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; margin-bottom: 5rem; }
+    .partners-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .partner-badge { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; border: 1px solid var(--border); padding: 0.35rem 0.8rem; color: var(--warm-mid); border-radius: 2px; }
+    .project-nav { border-top: 1px solid var(--border); padding: 2.5rem 3rem; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .project-nav a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .project-nav a:hover { color: var(--off-white); }
+    @media (max-width: 768px) {
+      nav, .project-hero, .content-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .text-columns { grid-template-columns: 1fr; gap: 2rem; }
+      .programme-grid { grid-template-columns: 1fr 1fr; }
+      .image-grid-2, .image-grid-3 { grid-template-columns: 1fr; }
+      .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">← AMC Portfolio</a>
+    <a href="index.html" class="nav-back">All Projects</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-tag">03 — Spatial Audio · 4DSOUND · Residency · London</p>
+    <h1 class="project-title">Stone Nest,<br>4DSOUND & Amoenus —<br><em>Exploring<br>Spatial Sound</em></h1>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">15–19 May 2023</span></div>
+      <div class="meta-item"><span class="meta-label">Venue</span><span class="meta-value">Stone Nest, London W1D 5EZ</span></div>
+      <div class="meta-item"><span class="meta-label">Format</span><span class="meta-value">5-Day Residency / Open Call</span></div>
+      <div class="meta-item"><span class="meta-label">System</span><span class="meta-value">4DSOUND</span></div>
+      <div class="meta-item"><span class="meta-label">Culmination</span><span class="meta-value">Public Closing Concert, 19 May</span></div>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+
+    <div class="wide-image" style="height:60vh;margin-bottom:5rem;">
+      <img src="sn_workshop.jpg" alt="Participants working with 4DSOUND system, Ableton and spatial audio software on screen" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">4DSOUND workshop session — Stone Nest, London</span>
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">About</span>
+      <div class="col-content">
+        <h3>A week of learning and creating<br>in a 4DSOUND system</h3>
+        <p>
+          Exploring Spatial Sound was a 5-day residential course organised by Amoenus in collaboration with 4DSOUND — an Amsterdam-based studio whose approach to spatial audio as a creative medium is one of the most distinctive in contemporary practice. The course took place at Stone Nest, a historic arts venue in Soho, London, where a bespoke 4DSOUND system was installed for the residency.
+        </p>
+        <p>
+          Twenty participants — artists, musicians, creatives, performers, and designers from across the UK and beyond — were selected to explore the potential of spatial sound through the 4DSOUND technology. Over five days, they developed technical, theoretical, and creative understanding of how to produce and present spatial sound compositions.
+        </p>
+        <blockquote>
+          Spatial audio as a creative medium — not headphones, not stereo, but sound as architecture: surrounding, moving, and inhabiting space.
+        </blockquote>
+        <p>
+          The residency culminated in a public closing concert on Friday 19 May, where participants presented their works-in-progress to a live audience inside the Stone Nest space. Agustín Martínez was one of twenty participants selected through the open call.
+        </p>
+      </div>
+    </div>
+
+    <div class="image-grid-3">
+      <div class="image-slot">
+        <!-- <img src="stone-nest/img1.jpg" alt="Stone Nest venue" /> -->
+        <span class="placeholder-icon">IMAGE</span>
+        <span class="image-slot-label">Stone Nest venue, Soho</span>
+      </div>
+      <div class="image-slot">
+        <!-- <img src="stone-nest/img2.jpg" alt="4DSOUND system" /> -->
+        <span class="placeholder-icon">IMAGE</span>
+        <span class="image-slot-label">4DSOUND system installation</span>
+      </div>
+      <div class="image-slot">
+        <!-- <img src="stone-nest/img3.jpg" alt="Workshop session" /> -->
+        <span class="placeholder-icon">IMAGE</span>
+        <span class="image-slot-label">Workshop session</span>
+      </div>
+    </div>
+
+    <!-- PROGRAMME -->
+    <div class="programme-grid">
+      <div class="day-card">
+        <p class="day-label">DAY 01 — MON 15</p>
+        <h3 class="day-title">Introduction to 4DSOUND</h3>
+        <p class="day-desc">System orientation, theoretical grounding in spatial audio principles, first exploratory sessions.</p>
+      </div>
+      <div class="day-card">
+        <p class="day-label">DAY 02 — TUE 16</p>
+        <h3 class="day-title">Technical Deep Dive</h3>
+        <p class="day-desc">Working with the 4DSOUND interface, spatial composition techniques, object-based audio.</p>
+      </div>
+      <div class="day-card">
+        <p class="day-label">DAY 03 — WED 17</p>
+        <h3 class="day-title">Composition Development</h3>
+        <p class="day-desc">Participants begin developing their own spatial works, individual and collaborative studio time.</p>
+      </div>
+      <div class="day-card">
+        <p class="day-label">DAY 04 — THU 18</p>
+        <h3 class="day-title">Refinement & Rehearsal</h3>
+        <p class="day-desc">Iterating and refining works in the 4DSOUND system, spatial mixing, rehearsal for closing event.</p>
+      </div>
+      <div class="day-card">
+        <p class="day-label">DAY 05 — FRI 19</p>
+        <h3 class="day-title">Public Closing Concert</h3>
+        <p class="day-desc">Free public event — participants present works-in-progress to a live audience at Stone Nest.</p>
+      </div>
+    </div>
+
+    <!-- Studio + lecture images -->
+    <div class="image-grid-2" style="margin-bottom:5rem;">
+      <div class="image-slot wide-ratio">
+        <img src="sn_studio.jpg" alt="Participants working on laptops with headphones in Stone Nest studio space" />
+        <span class="image-slot-label">Studio work sessions — Stone Nest</span>
+      </div>
+      <div class="image-slot wide-ratio">
+        <img src="sn_lecture.jpg" alt="Presenter with projected slide about IOANN spatial audio work" />
+        <span class="image-slot-label">Guest lecture — spatial audio research</span>
+      </div>
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">4DSOUND</span>
+      <div class="col-content">
+        <h3>Sound as Architecture</h3>
+        <p>
+          4DSOUND is an Amsterdam-based studio developing proprietary technology for omnidirectional spatial audio. Their system surrounds listeners in a three-dimensional sound field — sound moves through space in all directions, occupying it as a physical presence rather than a directional signal.
+        </p>
+        <p>
+          Working within the 4DSOUND environment inverts many assumptions of conventional sound production: there is no "speaker" to aim at, no stereo image to construct. Instead, the composer thinks spatially — placing sounds in three-dimensional coordinates, giving them movement, weight, and trajectory.
+        </p>
+        <p>
+          For Agustín, the residency extended the concerns of Data Resonance — which used sound as a medium for translating data into embodied experience — into the domain of pure spatial composition: exploring how sound can constitute, not merely accompany, an environment.
+        </p>
+      </div>
+    </div>
+
+    <div class="wide-image">
+      <img src="sn_concert_crowd.jpg" alt="Closing concert — performers at central table, audience surrounding them in Stone Nest" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Public closing concert — Stone Nest, 19 May 2023</span>
+    </div>
+
+    <!-- PARTICIPANTS -->
+    <div class="participants-block">
+      <h3>Closing Concert Participants</h3>
+      <div class="participants-list">
+        <span class="participant highlight">Agustín Martínez</span>
+        <span class="participant">Holly Austin</span>
+        <span class="participant">Anni Nöps</span>
+        <span class="participant">Samuel Narvaez</span>
+        <span class="participant">Ernesto Bellicini</span>
+        <span class="participant">Sadah Espii Proctor</span>
+        <span class="participant">Xiaowan Yi</span>
+        <span class="participant">Christian Groothuizen</span>
+        <span class="participant">Rob Parton</span>
+        <span class="participant">Francesco Bentivegna</span>
+        <span class="participant">Russell Gendron</span>
+        <span class="participant">Danny Trachtenberg</span>
+        <span class="participant">Nina Corti</span>
+        <span class="participant">Malou van der Veld</span>
+        <span class="participant">Bilge Nur Yilmaz</span>
+        <span class="participant">Evan Ifekoya</span>
+        <span class="participant">Ben Koppelman</span>
+        <span class="participant">Mauricio Silva Orendain</span>
+        <span class="participant">Tanya Louise Workman</span>
+        <span class="participant">Georgina Brett</span>
+      </div>
+    </div>
+
+    <div class="image-grid-3" style="margin-bottom:5rem;">
+      <div class="image-slot">
+        <img src="sn_concert_dark.jpg" alt="Performers at table in darkness during closing concert, audience seated around them" />
+        <span class="image-slot-label">Closing concert — in the dark</span>
+      </div>
+      <div class="image-slot">
+        <img src="sn_group1.jpg" alt="All 20 participants group photo after closing concert, with instruments and equipment" />
+        <span class="image-slot-label">All participants — post-concert</span>
+      </div>
+      <div class="image-slot">
+        <img src="sn_group2.jpg" alt="Group photo of all participants at Stone Nest" />
+        <span class="image-slot-label">Course participants — Stone Nest, May 2023</span>
+      </div>
+    </div>
+
+    <div class="partners-row">
+      <span class="partners-label">Partners</span>
+      <span class="partner-badge">4DSOUND</span>
+      <span class="partner-badge">Amoenus</span>
+      <span class="partner-badge">Stone Nest</span>
+      <span class="partner-badge">33-33 / @3333label</span>
+      <span class="partner-badge">The Richard Thomas Foundation</span>
+    </div>
+  </div>
+
+  <div class="project-nav">
+    <a href="pele.html">← Pele</a>
+    <a href="data-resonance.html">Next: Data Resonance →</a>
+  </div>
+
+
+</body>
+</html>

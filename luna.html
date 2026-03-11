@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luna — Des-illu(minat)/s-ion(s) — Agustín Martínez Caram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --black: #080808; --off-white: #ede9e0; --warm-mid: #9a9284; --accent: #a0b4d4; --accent-dim: rgba(160,180,212,0.08); --border: rgba(237,233,224,0.1); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--off-white); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.65; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.45; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+    .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; }
+    .nav-back { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .nav-back:hover { color: var(--off-white); }
+    .project-hero { position: relative; z-index: 1; padding: 6rem 3rem 4rem; max-width: 1280px; margin: 0 auto; }
+    .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 6vw, 7rem); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .project-title em { font-style: italic; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .meta-value { font-size: 0.88rem; color: var(--off-white); }
+    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
+    .hero-visual { width: 100%; height: 60vh; min-height: 360px; background: #050508; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .pixel-field { position: absolute; inset: 0; }
+    .px { position: absolute; background: var(--accent); border-radius: 1px; animation: flicker 3s ease-in-out infinite; }
+    @keyframes flicker { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.35; transform: scale(1); } }
+    .hero-visual-label { position: absolute; bottom: 1.5rem; left: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+    .hero-visual-credit { position: absolute; bottom: 1.5rem; right: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.3; }
+    .text-columns { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-bottom: 5rem; }
+    .col-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); padding-top: 0.3rem; }
+    .col-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 1.2rem; }
+    .col-content p { font-size: 0.9rem; color: var(--warm-mid); line-height: 1.8; margin-bottom: 1rem; }
+    .col-content p:last-child { margin-bottom: 0; }
+    .col-content blockquote { border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--off-white); line-height: 1.5; }
+    .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .image-slot { background: #0a0a12; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .image-slot.wide-ratio { aspect-ratio: 16/9; }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
+    .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
+    .process-steps { margin-bottom: 5rem; border-top: 1px solid var(--border); }
+    .step { display: grid; grid-template-columns: 4rem 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--accent); letter-spacing: 0.1em; padding-top: 0.3rem; }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.85rem; color: var(--warm-mid); line-height: 1.7; }
+    .wide-image { width: 100%; height: 50vh; min-height: 300px; background: #0a0a12; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-slot { width: 100%; background: #0a0a12; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .video-slot video { width: 100%; height: 100%; object-fit: cover; }
+    .video-placeholder { text-align: center; }
+    .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
+    .video-placeholder p { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); opacity: 0.4; }
+    .partners-row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; margin-bottom: 5rem; }
+    .partners-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .partner-badge { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; border: 1px solid var(--border); padding: 0.35rem 0.8rem; color: var(--warm-mid); border-radius: 2px; }
+    .project-nav { border-top: 1px solid var(--border); padding: 2.5rem 3rem; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .project-nav a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
+    .project-nav a:hover { color: var(--off-white); }
+    @media (max-width: 768px) {
+      nav, .project-hero, .content-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .text-columns { grid-template-columns: 1fr; gap: 2rem; }
+      .image-grid-2, .image-grid-3 { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+      .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">← AMC Portfolio</a>
+    <a href="index.html" class="nav-back">All Projects</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-tag">05 — AI · Projection Mapping · Visual Storytelling · Festival</p>
+    <h1 class="project-title">LUNA —<br><em>Des-illu(minat)<br>/s-ion(s)</em></h1>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Year</span><span class="meta-value">2019</span></div>
+      <div class="meta-item"><span class="meta-label">Festival</span><span class="meta-value">LUNA / Media Art Friesland</span></div>
+      <div class="meta-item"><span class="meta-label">Location</span><span class="meta-value">Blokhuispoort, Leeuwarden, NL</span></div>
+      <div class="meta-item"><span class="meta-label">Format</span><span class="meta-value">Site-Specific Spatial Projection</span></div>
+      <div class="meta-item"><span class="meta-label">Duo</span><span class="meta-value">Arvustin Caramdersson</span></div>
+      <div class="meta-item"><span class="meta-label">Commission</span><span class="meta-value">Media Art Friesland</span></div>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+
+    <!-- HERO: concept card -->
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:5rem;">
+      <img src="luna_concept.png" alt="Des-illu(minat)/s-ion(s) — concept overview with Blokhuispoort projection, 3D model, AI figure detection, LUNA festival logo" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">About</span>
+      <div class="col-content">
+        <h3>A speculative imagining of the now,<br>seen from a possible future</h3>
+        <p>Commissioned by Media Art Friesland for LUNA Festival 2019, <em>Des-illu(minat)/s-ion(s)</em> was presented as a large-scale spatial projection on the walls of the Blokhuispoort — a historic former prison in the centre of Leeuwarden, in use since 1580 and converted to a cultural centre after its closure as a detention facility in 2007.</p>
+        <p>Arvustin Caramdersson (Hannes Arvid Andersson & Agustín Martínez Caram) gathered online data about Leeuwarden and the Blokhuispoort from archival institutions — the Historisch Centrum Leeuwarden, Tresoar, and the Fries Film Archief — including photographic material, newspaper texts from the Leeuwarden Courant, and film footage. This material was processed through machine learning algorithms to generate an AI-authored narrative, then translated into a moving image projected onto the prison walls.</p>
+        <blockquote>The project explores storytelling possibilities rendered by emerging technologies — historical data processed through algorithmic and machine learning processes, compressed into an audiovisual narrative: a speculative imagining of the now seen from a possible future.</blockquote>
+        <p>The Blokhuispoort was chosen not only as a screen but as a subject: a building that until December 2007 served as a legal centre and detention facility, with a complex history as a hub for dairy trade, women's ice skating tournaments, and — since 1500 — as a prison. The work gives this accumulated history back to the building, in light.</p>
+      </div>
+    </div>
+
+    <!-- Projection + audience -->
+    <div class="wide-image" style="margin-bottom:1px;">
+      <img src="luna_projection.jpg" alt="Live projection on Blokhuispoort walls — glitchy colourful AI-generated imagery projected on the former prison facade at night" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Spatial projection — Blokhuispoort, Leeuwarden — LUNA 2019</span>
+    </div>
+    <div class="image-grid-3" style="margin-bottom:5rem;">
+      <div class="image-slot">
+        <img src="luna_audience.png" alt="Audience watching spatial projection at night — couple from behind with colourful building in distance" style="object-fit:cover;object-position:0% center;" />
+        <span class="image-slot-label">Audience — LUNA Festival, Leeuwarden</span>
+      </div>
+      <div class="image-slot">
+        <img src="luna_audience.png" alt="Audience photographing the projection at night" style="object-fit:cover;object-position:50% center;" />
+        <span class="image-slot-label">Public — photographing the work</span>
+      </div>
+      <div class="image-slot">
+        <img src="luna_audience.png" alt="Child watching the projection alone at night" style="object-fit:cover;object-position:100% center;" />
+        <span class="image-slot-label">Blokhuispoort projection — 2019</span>
+      </div>
+    </div>
+
+    <!-- Process steps with archival context -->
+    <div class="process-steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div>
+          <h3 class="step-title">Archival Research</h3>
+          <p class="step-desc">Research commenced at the Historisch Centrum Leeuwarden, Tresoar, and the Fries Film Archief — gathering photographic material from the Blokhuispoort Online Archives, texts from the Leeuwarden Courant, and film footage. Jurjen Enzing of Historisch Centrum Leeuwarden provided key insights into Leeuwarden's history as a legal centre, dairy hub, and site of controversial women's ice skating tournaments.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div>
+          <h3 class="step-title">3D Photogrammetry & Location Data</h3>
+          <p class="step-desc">The team also worked with location data — 3D geometry depicting the nearby environment produced through photogrammetry. The Blokhuispoort complex, with its 180 cells and 130-year-old structure, was scanned and modelled to integrate architectural data into the audiovisual narrative.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div>
+          <h3 class="step-title">Algorithmic & ML Processing</h3>
+          <p class="step-desc">Gathered materials were processed through a variety of algorithmic and machine learning processes. An indexed search of all online newspaper articles referencing the Blokhuispoort was used to generate a narrative. The totality of materials was then remixed and "compressed" into an audiovisual sequence.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div>
+          <h3 class="step-title">Spatial Projection</h3>
+          <p class="step-desc">The final work was projected as a site-specific spatial projection on the walls of the Blokhuispoort for LUNA Festival 2019 — a free public festival presented by Media Art Friesland, part of Noordenaars and the ILO (International Light Festivals Organisation).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process documentation images -->
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:1px;">
+      <img src="luna_process.png" alt="Process documentation — 3D photogrammetry models of Leeuwarden, ML output stills, historical archive images" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
+    </div>
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:5rem;">
+      <img src="luna_archives.jpg" alt="Research process — archival institutions, Blokhuispoort history, historical photographs" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
+    </div>
+
+    <!-- Video stills / screen content -->
+    <div class="image-grid-2" style="margin-bottom:5rem;">
+      <div class="image-slot wide-ratio">
+        <img src="luna_screens.png" alt="AI-generated moving image content — left screen: glitched archival figures with Dutch text; right: colourised historical crowd" style="object-fit:contain;background:#050508;" />
+        <span class="image-slot-label">Moving image — AI-generated narrative</span>
+      </div>
+      <div class="image-slot wide-ratio" style="background:#050508;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--off-white);opacity:0.7;text-align:center;line-height:1.4;">Duo: Arvustin Caramdersson</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:var(--warm-mid);opacity:0.5;text-align:center;">Hannes Arvid Andersson<br>& Agustín Martínez Caram</span>
+        <span style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:var(--accent);opacity:0.6;margin-top:1rem;text-align:center;">Noordenaars · ILO</span>
+      </div>
+    </div>
+
+    <div class="text-columns">
+      <span class="col-label">Duo</span>
+      <div class="col-content">
+        <h3>Arvustin Caramdersson:<br>Remixology of the Digital</h3>
+        <p>Arvustin Caramdersson is the artistic research duo of Hannes Arvid Andersson and Agustín Martínez Caram, based in the Netherlands. Working across audiovisual media, they investigate the social and humanistic impact of the digital landscape — rearranging, disrupting, fragmenting and layering pixels in algorithmic and creative processes to explore how meaning is attributed in the digital world.</p>
+        <p>The title of the work — with its compressed, fragmented typography — mirrors its method: breaking apart familiar words (disillusion, illumination, ions) to reveal new meanings in the gaps between them. The work was also produced in collaboration under this duo for Data Resonance (2020–21).</p>
+      </div>
+    </div>
+
+    <div class="partners-row">
+      <span class="partners-label">Partners & Support</span>
+      <span class="partner-badge">Media Art Friesland</span>
+      <span class="partner-badge">LUNA Festival</span>
+      <span class="partner-badge">Provincie Fryslân</span>
+      <span class="partner-badge">Gemeente Leeuwarden</span>
+      <span class="partner-badge">Noordenaars</span>
+      <span class="partner-badge">ILO</span>
+      <span class="partner-badge">Historisch Centrum Leeuwarden</span>
+      <span class="partner-badge">Tresoar</span>
+      <span class="partner-badge">Fries Film Archief</span>
+    </div>
+  </div>
+
+  <div class="project-nav">
+    <a href="data-resonance.html">← Data Resonance</a>
+    <a href="index.html">Back to Portfolio ↑</a>
+  </div>
+
+</body>
+</html>
