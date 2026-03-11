@@ -44,7 +44,17 @@
     .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .image-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .image-slot { background: #0d0b08; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: filter 0.3s; }
+    .image-slot img:hover { filter: brightness(0.9); }
+    
+    /* LIGHTBOX STYLES */
+    .lightbox { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); animation: fadeIn 0.3s; }
+    .lightbox.active { display: flex; align-items: center; justify-content: center; }
+    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-img { width: 100%; height: 100%; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: var(--off-white); cursor: pointer; background: none; border: none; z-index: 1001; }
+    .lightbox-close:hover { color: var(--accent); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
     .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
 
@@ -62,7 +72,8 @@
     .stat-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
 
     .wide-image { width: 100%; height: 45vh; min-height: 280px; background: #0d0b08; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: filter 0.3s; }
+    .wide-image img:hover { filter: brightness(0.9); }
     .video-slot { width: 100%; background: #0d0b08; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .video-placeholder { text-align: center; }
     .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
@@ -234,5 +245,60 @@
     <a href="stone-nest.html">← Stone Nest</a>
     <a href="luna.html">Next: Luna →</a>
   </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+  </div>
+
+  <script>
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    // Add click listeners to all images in image-slot
+    document.querySelectorAll('.image-slot img').forEach(img => {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openLightbox(this.src, this.alt);
+      });
+    });
+
+    // Also add click listeners to wide-image images
+    document.querySelectorAll('.wide-image img').forEach(img => {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openLightbox(this.src, this.alt);
+      });
+    });
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
+
 </body>
 </html>
