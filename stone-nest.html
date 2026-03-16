@@ -82,9 +82,21 @@
       .image-grid-2, .image-grid-3 { grid-template-columns: 1fr; }
       .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
     }
+    /* LIGHTBOX */
+    .lightbox-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox-overlay.active { display:flex; }
+    .lightbox-overlay img { max-width:92vw; max-height:92vh; object-fit:contain; box-shadow:0 0 60px rgba(0,0,0,0.8); }
+    .lightbox-close { position:fixed; top:1.5rem; right:2rem; font-family:'DM Mono',monospace; font-size:1.2rem; color:var(--off-white); cursor:pointer; opacity:0.6; z-index:1001; }
+    .lightbox-close:hover { opacity:1; }
+    .image-slot { cursor:zoom-in; }
+    .wide-image { cursor:zoom-in; }
   </style>
 </head>
 <body>
+  <div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
   <nav>
     <a href="index.html" class="nav-logo">← AMC Portfolio</a>
     <a href="index.html" class="nav-back">All Projects</a>
@@ -104,7 +116,7 @@
 
   <div class="content-wrap">
 
-    <div class="wide-image" style="height:60vh;margin-bottom:5rem;">
+    <div class="wide-image" style="height:60vh;margin-bottom:5rem;" onclick="openLightbox('sn_workshop.jpg')">
       <img src="sn_workshop.jpg" alt="Participants working with 4DSOUND system, Ableton and spatial audio software on screen" />
       <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">4DSOUND workshop session — Stone Nest, London</span>
     </div>
@@ -129,20 +141,17 @@
     </div>
 
     <div class="image-grid-3">
-      <div class="image-slot">
-        <!-- <img src="stone-nest/img1.jpg" alt="Stone Nest venue" /> -->
-        <span class="placeholder-icon">IMAGE</span>
+      <div class="image-slot" onclick="openLightbox('sn_workshop.jpg')">
+        <img src="sn_workshop.jpg" alt="Participants working on laptops at Stone Nest" />
         <span class="image-slot-label">Stone Nest venue, Soho</span>
       </div>
-      <div class="image-slot">
-        <!-- <img src="stone-nest/img2.jpg" alt="4DSOUND system" /> -->
-        <span class="placeholder-icon">IMAGE</span>
-        <span class="image-slot-label">4DSOUND system installation</span>
+      <div class="image-slot" onclick="openLightbox('sn_studio.jpg')">
+        <img src="sn_studio.jpg" alt="Studio work session" />
+        <span class="image-slot-label">4DSOUND system — studio session</span>
       </div>
-      <div class="image-slot">
-        <!-- <img src="stone-nest/img3.jpg" alt="Workshop session" /> -->
-        <span class="placeholder-icon">IMAGE</span>
-        <span class="image-slot-label">Workshop session</span>
+      <div class="image-slot" onclick="openLightbox('sn_lecture.jpg')">
+        <img src="sn_lecture.jpg" alt="Guest lecture on spatial audio" />
+        <span class="image-slot-label">Workshop session — guest lecture</span>
       </div>
     </div>
 
@@ -177,11 +186,11 @@
 
     <!-- Studio + lecture images -->
     <div class="image-grid-2" style="margin-bottom:5rem;">
-      <div class="image-slot wide-ratio">
+      <div class="image-slot wide-ratio" onclick="openLightbox('sn_studio.jpg')">
         <img src="sn_studio.jpg" alt="Participants working on laptops with headphones in Stone Nest studio space" />
         <span class="image-slot-label">Studio work sessions — Stone Nest</span>
       </div>
-      <div class="image-slot wide-ratio">
+      <div class="image-slot wide-ratio" onclick="openLightbox('sn_lecture.jpg')">
         <img src="sn_lecture.jpg" alt="Presenter with projected slide about IOANN spatial audio work" />
         <span class="image-slot-label">Guest lecture — spatial audio research</span>
       </div>
@@ -203,7 +212,7 @@
       </div>
     </div>
 
-    <div class="wide-image">
+    <div class="wide-image" onclick="openLightbox('sn_concert_crowd.jpg')">
       <img src="sn_concert_crowd.jpg" alt="Closing concert — performers at central table, audience surrounding them in Stone Nest" />
       <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Public closing concert — Stone Nest, 19 May 2023</span>
     </div>
@@ -236,15 +245,15 @@
     </div>
 
     <div class="image-grid-3" style="margin-bottom:5rem;">
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('sn_concert_dark.jpg')">
         <img src="sn_concert_dark.jpg" alt="Performers at table in darkness during closing concert, audience seated around them" />
         <span class="image-slot-label">Closing concert — in the dark</span>
       </div>
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('sn_group1.jpg')">
         <img src="sn_group1.jpg" alt="All 20 participants group photo after closing concert, with instruments and equipment" />
         <span class="image-slot-label">All participants — post-concert</span>
       </div>
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('sn_group2.jpg')">
         <img src="sn_group2.jpg" alt="Group photo of all participants at Stone Nest" />
         <span class="image-slot-label">Course participants — Stone Nest, May 2023</span>
       </div>
@@ -255,8 +264,6 @@
       <span class="partner-badge">4DSOUND</span>
       <span class="partner-badge">Amoenus</span>
       <span class="partner-badge">Stone Nest</span>
-      <span class="partner-badge">33-33 / @3333label</span>
-      <span class="partner-badge">The Richard Thomas Foundation</span>
     </div>
   </div>
 
@@ -265,6 +272,21 @@
     <a href="data-resonance.html">Next: Data Resonance →</a>
   </div>
 
-
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.getElementById('lightbox-img').src = '';
+    }
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
 </html>
