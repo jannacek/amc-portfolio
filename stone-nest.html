@@ -20,7 +20,30 @@
     .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
     .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 8rem); font-weight: 300; line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 3rem; }
     .project-title em { font-style: italic; }
-    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; position: relative; }
+    .meta-row::before, .meta-row::after {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      right: -3rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      background-size: 40% 100%;
+      animation: lightScan 10s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .meta-row::before { top: -1px; }
+    .meta-row::after { bottom: -1px; animation-delay: 5s; }
+    @keyframes lightScan {
+      0% { background-position: -100% 0; }
+      100% { background-position: 250% 0; }
+    }
+
+    /* DAY CARD HOVER */
+    .day-card { background: #0a0f0d; padding: 2rem 1.5rem; transition: background 0.4s ease, box-shadow 0.4s ease; }
+    .day-card:hover { background: #0d1a16; box-shadow: inset 0 0 30px rgba(138,176,160,0.08), 0 0 0 1px rgba(138,176,160,0.2); }
+    .day-card:hover .day-title { text-shadow: 0 0 20px rgba(138,176,160,0.3); }
+    .day-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.6rem; line-height: 1.2; transition: text-shadow 0.4s; }
     .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
     .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
     .meta-value { font-size: 0.88rem; color: var(--off-white); }
@@ -52,7 +75,6 @@
     .programme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .day-card { background: #0a0f0d; padding: 2rem 1.5rem; }
     .day-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--accent); margin-bottom: 0.6rem; letter-spacing: 0.1em; }
-    .day-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.6rem; line-height: 1.2; }
     .day-desc { font-size: 0.78rem; color: var(--warm-mid); line-height: 1.6; }
 
     /* PARTICIPANTS LIST */
@@ -116,7 +138,7 @@
 
   <div class="content-wrap">
 
-    <div class="wide-image" style="height:60vh;margin-bottom:5rem;" onclick="openLightbox('sn_group1.jpg')">
+    <div class="wide-image" style="height:72vh;margin-bottom:5rem;" onclick="openLightbox('sn_group1.jpg')">
       <img src="sn_group1.jpg" alt="All 20 participants group photo after closing concert" style="object-position:center 30%;" />
       <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">All participants — Stone Nest, London, May 2023</span>
     </div>
