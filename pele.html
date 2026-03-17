@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pele — Agustín Martínez Caram</title>
+  <title>P.E.L.E. — Agustín Martínez Caram</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
@@ -20,13 +20,33 @@
     .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
     .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 10vw, 10rem); font-weight: 300; line-height: 0.88; letter-spacing: -0.02em; margin-bottom: 3rem; }
     .project-title em { font-style: italic; }
-    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
-    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
-    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
-    .meta-value { font-size: 0.88rem; color: var(--off-white); }
-    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; position: relative; }
+    .meta-row::before, .meta-row::after {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      right: -3rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      background-size: 40% 100%;
+      animation: lightScan 10s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .meta-row::before { top: -1px; }
+    .meta-row::after { bottom: -1px; animation-delay: 5s; }
+    @keyframes lightScan {
+      0% { background-position: -100% 0; }
+      100% { background-position: 250% 0; }
+    }
 
-    /* HERO VISUAL — volcanic terrain */
+    /* LOCATION CARDS */
+    .locations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
+    .location-card { background: #0c0c0c; padding: 2rem 1.5rem; position: relative; transition: background 0.4s ease, box-shadow 0.4s ease; }
+    .location-card:hover { background: #160a04; box-shadow: inset 0 0 30px rgba(224,122,64,0.08), 0 0 0 1px rgba(224,122,64,0.2); }
+    .location-card:hover .location-name { text-shadow: 0 0 20px rgba(224,122,64,0.3); }
+    .location-num { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--accent); margin-bottom: 0.8rem; letter-spacing: 0.1em; }
+    .location-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; transition: text-shadow 0.4s; }
+    .location-desc { font-size: 0.8rem; color: var(--warm-mid); line-height: 1.6; }
     .hero-visual {
       width: 100%; height: 55vh; min-height: 320px;
       background: radial-gradient(ellipse at 30% 70%, #2a0800 0%, #0d0200 50%, #080808 100%);
@@ -53,26 +73,23 @@
     .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .image-slot { background: #0f0f0f; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .image-slot.tall { aspect-ratio: 3/4; }
-    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: filter 0.3s; }
-    .image-slot img:hover { filter: brightness(0.9); }
-    
-    /* LIGHTBOX STYLES */
-    .lightbox { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); animation: fadeIn 0.3s; }
-    .lightbox.active { display: flex; align-items: center; justify-content: center; }
-    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; }
-    .lightbox-img { width: 100%; height: 100%; object-fit: contain; }
-    .lightbox-close { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: var(--off-white); cursor: pointer; background: none; border: none; z-index: 1001; }
-    .lightbox-close:hover { color: var(--accent); }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
     .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
 
     /* LOCATION CARDS */
     .locations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
-    .location-card { background: #0c0c0c; padding: 2rem 1.5rem; position: relative; }
+    .location-card { background: #0c0c0c; padding: 2rem 1.5rem; position: relative; transition: background 0.4s ease, box-shadow 0.4s ease; }
+    .location-card:hover { background: #160a04; box-shadow: inset 0 0 30px rgba(224,122,64,0.08), 0 0 0 1px rgba(224,122,64,0.2); }
+    .location-card:hover .location-name { text-shadow: 0 0 20px rgba(224,122,64,0.3); }
     .location-num { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--accent); margin-bottom: 0.8rem; letter-spacing: 0.1em; }
-    .location-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; }
+    .location-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; transition: text-shadow 0.4s; }
     .location-desc { font-size: 0.8rem; color: var(--warm-mid); line-height: 1.6; }
+
+    .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
+    .meta-value { font-size: 0.88rem; color: var(--off-white); }
+    .content-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 3rem 6rem; }
 
     .wide-image { width: 100%; height: 45vh; min-height: 280px; background: #0f0f0f; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -91,9 +108,21 @@
       .locations-grid { grid-template-columns: 1fr 1fr; }
       .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
     }
+    /* LIGHTBOX */
+    .lightbox-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox-overlay.active { display:flex; }
+    .lightbox-overlay img { max-width:92vw; max-height:92vh; object-fit:contain; box-shadow:0 0 60px rgba(0,0,0,0.8); }
+    .lightbox-close { position:fixed; top:1.5rem; right:2rem; font-family:'DM Mono',monospace; font-size:1.2rem; color:var(--off-white); cursor:pointer; opacity:0.6; z-index:1001; }
+    .lightbox-close:hover { opacity:1; }
+    .image-slot { cursor:zoom-in; }
+    .wide-image { cursor:zoom-in; }
   </style>
 </head>
 <body>
+  <div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
   <nav>
     <a href="index.html" class="nav-logo">← AMC Portfolio</a>
     <a href="index.html" class="nav-back">All Projects</a>
@@ -139,26 +168,25 @@
 
     <!-- Cave entrance + sampling pair -->
     <div class="image-grid-2">
-      <div class="image-slot tall">
+      <div class="image-slot tall" onclick="openLightbox('pele_0126.jpg')">
         <img src="pele_0126.jpg" alt="Team entering Lofthellir lava cave with ice inside" />
         <span class="image-slot-label">Lofthellir cave entrance — Lofthellir, Iceland</span>
       </div>
-      <div class="image-slot tall">
+      <div class="image-slot tall" onclick="openLightbox('pele_0104.jpg')">
         <img src="pele_0104.jpg" alt="Researcher descending into cave opening" />
         <span class="image-slot-label">Cave descent — lava tube access point</span>
       </div>
     </div>
-    <!-- Three sampling close-ups -->
     <div class="image-grid-3">
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('pele_0298.jpg')">
         <img src="pele_0298.jpg" alt="Researcher sampling lava cave wall" />
         <span class="image-slot-label">Wall sampling — Lofthellir cave</span>
       </div>
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('pele_0361.jpg')">
         <img src="pele_0361.jpg" alt="Two researchers sampling cave wall with headlamps" />
         <span class="image-slot-label">Joint sampling — lava cave interior</span>
       </div>
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('pele_0693.jpg')">
         <img src="pele_0693.jpg" alt="Rock sample collected in bag inside lava cave" />
         <span class="image-slot-label">Rock sample collection — Lofthellir</span>
       </div>
@@ -194,8 +222,10 @@
         <iframe src="https://www.youtube.com/embed/QYXa8bXHzWc" title="Ice sampling — Lofthellir cave" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;"></iframe>
       </div>
       <div style="background:#0d0b08;aspect-ratio:9/16;position:relative;overflow:hidden;">
-        <iframe src="https://www.youtube.com/embed/N4Aipn3LeH8" title="Playing Ice — lava tube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;"></iframe>
-        <span style="position:absolute;bottom:0.8rem;left:0.8rem;font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:var(--off-white);opacity:0.4;pointer-events:none;">Playing Ice — lava tube, Iceland</span>
+        <video controls style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <source src="pele_sampling_ice.mov" type="video/mp4" />
+        </video>
+        <span style="position:absolute;bottom:0.8rem;left:0.8rem;font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:var(--off-white);opacity:0.4;pointer-events:none;">Ice sampling — lava tube, Iceland</span>
       </div>
     </div>
 
@@ -216,18 +246,17 @@
     </div>
 
     <!-- Wide landscape -->
-    <div class="wide-image">
+    <div class="wide-image" onclick="openLightbox('pele_0395.jpg')">
       <img src="pele_0395.jpg" alt="Research group resting on mossy lava field, Atlantic ocean in background" />
       <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Purkholahraun lava field — Snaefellsness, Iceland</span>
     </div>
 
-    <!-- Final image row: samples + cave ice -->
     <div class="image-grid-3" style="margin-bottom:5rem;">
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('pele_0696.jpg')">
         <img src="pele_0696.jpg" alt="Ice sample vials held at cave floor" />
         <span class="image-slot-label">Ice sample collection — Lofthellir</span>
       </div>
-      <div class="image-slot">
+      <div class="image-slot" onclick="openLightbox('pele_0734.jpg')">
         <img src="pele_0734.jpg" alt="Researcher holding sample bag with thumbs up in cave" />
         <span class="image-slot-label">Collected samples — lava tube</span>
       </div>
@@ -243,59 +272,23 @@
     <a href="at-lab-i.html">← AT-LAB I</a>
     <a href="stone-nest.html">Next: Stone Nest →</a>
   </div>
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
-  </div>
+
 
   <script>
-    // Lightbox functionality
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    // Add click listeners to all images
-    document.querySelectorAll('.image-slot img').forEach(img => {
-      img.addEventListener('click', function(e) {
-        e.stopPropagation();
-        openLightbox(this.src, this.alt);
-      });
-    });
-
-    // Also add click listeners to wide-image images
-    document.querySelectorAll('.wide-image img').forEach(img => {
-      img.addEventListener('click', function(e) {
-        e.stopPropagation();
-        openLightbox(this.src, this.alt);
-      });
-    });
-
-    function openLightbox(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden';
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
     }
-
     function closeLightbox() {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = 'auto';
+      document.getElementById('lightbox').classList.remove('active');
+      document.getElementById('lightbox-img').src = '';
     }
-
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', function(e) {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
     });
-
-    // Close lightbox with Escape key
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeLightbox();
-      }
+      if (e.key === 'Escape') closeLightbox();
     });
   </script>
-
 </body>
 </html>
