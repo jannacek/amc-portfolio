@@ -20,7 +20,33 @@
     .project-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
     .project-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 8rem); font-weight: 300; line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 3rem; }
     .project-title em { font-style: italic; }
-    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; }
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; position: relative; }
+    .meta-row::before, .meta-row::after {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      right: -3rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      background-size: 40% 100%;
+      animation: lightScan 10s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .meta-row::before { top: -1px; }
+    .meta-row::after { bottom: -1px; animation-delay: 5s; }
+    @keyframes lightScan {
+      0% { background-position: -100% 0; }
+      100% { background-position: 250% 0; }
+    }
+
+    /* STAT CARD HOVER */
+    .stat-card { background: #0d0b08; padding: 2rem 1.5rem; text-align: center; transition: background 0.4s ease, box-shadow 0.4s ease; }
+    .stat-card:hover { background: #1a1508; box-shadow: inset 0 0 30px rgba(192,168,108,0.08), 0 0 0 1px rgba(192,168,108,0.2); }
+    .stat-card:hover .stat-num { text-shadow: 0 0 20px rgba(192,168,108,0.4); }
+
+    /* LAYER ICON EFFECTS */
+    .layer-icon { font-size: 1.8rem; opacity: 0.5; margin-bottom: 1rem; display: inline-block; transition: opacity 0.3s, transform 0.3s, text-shadow 0.3s; }
+    .layer-card:hover .layer-icon { opacity: 1; transform: scale(1.2); text-shadow: 0 0 12px var(--accent); }
     .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
     .meta-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); }
     .meta-value { font-size: 0.88rem; color: var(--off-white); }
@@ -44,36 +70,23 @@
     .image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .image-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .image-slot { background: #0d0b08; aspect-ratio: 4/3; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: filter 0.3s; }
-    .image-slot img:hover { filter: brightness(0.9); }
-    
-    /* LIGHTBOX STYLES */
-    .lightbox { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); animation: fadeIn 0.3s; }
-    .lightbox.active { display: flex; align-items: center; justify-content: center; }
-    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; }
-    .lightbox-img { width: 100%; height: 100%; object-fit: contain; }
-    .lightbox-close { position: absolute; top: 2rem; right: 2rem; font-size: 2.5rem; color: var(--off-white); cursor: pointer; background: none; border: none; z-index: 1001; }
-    .lightbox-close:hover { color: var(--accent); }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .image-slot-label { position: absolute; bottom: 0.8rem; left: 0.8rem; font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--warm-mid); opacity: 0.5; }
     .placeholder-icon { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--warm-mid); opacity: 0.3; letter-spacing: 0.1em; }
 
     /* INTERACTION LAYERS */
     .layers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 5rem; background: var(--border); }
     .layer-card { background: #0d0b08; padding: 2.5rem 2rem; }
-    .layer-icon { font-size: 1.8rem; opacity: 0.5; margin-bottom: 1rem; }
     .layer-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 0.8rem; }
     .layer-desc { font-size: 0.85rem; color: var(--warm-mid); line-height: 1.7; }
 
     /* STAT ROW */
     .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 5rem; background: var(--border); }
-    .stat-card { background: #0d0b08; padding: 2rem 1.5rem; text-align: center; }
-    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--accent); display: block; margin-bottom: 0.3rem; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--accent); display: block; margin-bottom: 0.3rem; transition: text-shadow 0.4s; }
     .stat-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); }
 
     .wide-image { width: 100%; height: 45vh; min-height: 280px; background: #0d0b08; border: 1px solid var(--border); margin-bottom: 5rem; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: filter 0.3s; }
-    .wide-image img:hover { filter: brightness(0.9); }
+    .wide-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .video-slot { width: 100%; background: #0d0b08; border: 1px solid var(--border); aspect-ratio: 16/9; margin-bottom: 5rem; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .video-placeholder { text-align: center; }
     .video-placeholder .play-icon { font-size: 3rem; color: var(--warm-mid); opacity: 0.2; margin-bottom: 0.5rem; }
@@ -120,7 +133,7 @@
           <path class="hb-path" d="M0,50 L200,50 L220,50 L240,10 L260,90 L280,20 L300,80 L320,50 L520,50 L540,50 L560,10 L580,90 L600,20 L620,80 L640,50 L840,50 L860,50 L880,10 L900,90 L920,20 L940,80 L960,50 L1200,50"/>
         </svg>
       </div>
-      <span class="hero-visual-label">AT-LAB I — 't Zandt, Groningen — 2–4 June 2023 — add images here</span>
+      <span class="hero-visual-label">Heartbeat → Movement → Light → Sound · AT-LAB I, 't Zandt 2023</span>
     </div>
 
     <div class="text-columns">
@@ -225,6 +238,15 @@
       </div>
     </div>
 
+    <!-- SAR25 POSTER -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:1rem;">Poster — SAR25 · 16th International Conference on Artistic Research · Faculty of Fine Arts, University of Porto · 7–9 May 2025</p>
+      <div style="width:100%;aspect-ratio:4/3;border:1px solid var(--border);overflow:hidden;margin-bottom:1rem;">
+        <iframe src="https://drive.google.com/file/d/1_5U6dnWIE4JMUG3tb3d8O5yGzPnc0meH/preview" width="100%" height="100%" style="border:none;display:block;" allow="autoplay"></iframe>
+      </div>
+      <a href="https://www.researchcatalogue.net/view/2759372/2831091" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid var(--accent);padding:0.4rem 1rem;display:inline-block;border-radius:2px;">View on Research Catalogue ↗</a>
+    </div>
+
     <div class="wide-image">
       <img src="at-lab-composite_4.jpg" alt="AT-LAB I — build and installation process" />
       <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Build & installation — Stichting Landgoed de Camping, 't Zandt</span>
@@ -245,60 +267,5 @@
     <a href="stone-nest.html">← Stone Nest</a>
     <a href="luna.html">Next: Luna →</a>
   </div>
-
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
-  </div>
-
-  <script>
-    // Lightbox functionality
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    // Add click listeners to all images in image-slot
-    document.querySelectorAll('.image-slot img').forEach(img => {
-      img.addEventListener('click', function(e) {
-        e.stopPropagation();
-        openLightbox(this.src, this.alt);
-      });
-    });
-
-    // Also add click listeners to wide-image images
-    document.querySelectorAll('.wide-image img').forEach(img => {
-      img.addEventListener('click', function(e) {
-        e.stopPropagation();
-        openLightbox(this.src, this.alt);
-      });
-    });
-
-    function openLightbox(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', function(e) {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-
-    // Close lightbox with Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeLightbox();
-      }
-    });
-  </script>
-
 </body>
 </html>
