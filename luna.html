@@ -62,16 +62,45 @@
     .project-nav { border-top: 1px solid var(--border); padding: 2.5rem 3rem; max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .project-nav a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-mid); text-decoration: none; transition: color 0.3s; }
     .project-nav a:hover { color: var(--off-white); }
-    @media (max-width: 768px) {
-      nav, .project-hero, .content-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .text-columns { grid-template-columns: 1fr; gap: 2rem; }
-      .image-grid-2, .image-grid-3 { grid-template-columns: 1fr; }
-      .step { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
-      .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    /* LIGHT SCAN */
+    .meta-row { display: flex; gap: 3rem; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.8rem 0; margin-bottom: 4rem; position: relative; }
+    .meta-row::before, .meta-row::after {
+      content: '';
+      position: absolute;
+      left: -3rem; right: -3rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+      background-size: 40% 100%;
+      animation: lightScan 10s ease-in-out infinite;
+      opacity: 0.6;
     }
+    .meta-row::before { top: -1px; }
+    .meta-row::after { bottom: -1px; animation-delay: 5s; }
+    @keyframes lightScan { 0% { background-position: -100% 0; } 100% { background-position: 250% 0; } }
+
+    /* STEP HOVER */
+    .step { display: grid; grid-template-columns: 4rem 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); align-items: start; transition: background 0.4s; padding-left: 1rem; padding-right: 1rem; margin: 0 -1rem; }
+    .step:hover { background: rgba(160,180,212,0.04); }
+    .step:hover .step-num { color: var(--off-white); }
+    .step:hover .step-title { text-shadow: 0 0 20px rgba(160,180,212,0.3); }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--accent); letter-spacing: 0.1em; padding-top: 0.3rem; transition: color 0.4s; }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.5rem; transition: text-shadow 0.4s; }
+
+    /* LIGHTBOX */
+    .lightbox-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox-overlay.active { display:flex; }
+    .lightbox-overlay img { max-width:92vw; max-height:92vh; object-fit:contain; box-shadow:0 0 60px rgba(0,0,0,0.8); }
+    .lightbox-close { position:fixed; top:1.5rem; right:2rem; font-family:'DM Mono',monospace; font-size:1.2rem; color:var(--off-white); cursor:pointer; opacity:0.6; z-index:1001; }
+    .lightbox-close:hover { opacity:1; }
+    .image-slot { cursor:zoom-in; }
+    .wide-image { cursor:zoom-in; }
   </style>
 </head>
 <body>
+  <div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
   <nav>
     <a href="index.html" class="nav-logo">← AMC Portfolio</a>
     <a href="index.html" class="nav-back">All Projects</a>
@@ -92,11 +121,13 @@
 
   <div class="content-wrap">
 
-    <!-- HERO: concept card -->
-    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:5rem;">
-      <img src="luna_concept.png" alt="Des-illu(minat)/s-ion(s) — concept overview with Blokhuispoort projection, 3D model, AI figure detection, LUNA festival logo" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
+    <!-- HERO: live projection photo -->
+    <div class="wide-image" style="height:70vh;margin-bottom:5rem;" onclick="openLightbox('luna_projection.jpg')">
+      <img src="luna_projection.jpg" alt="Live projection on Blokhuispoort walls at night" />
+      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Spatial projection — Blokhuispoort, Leeuwarden — LUNA 2019</span>
     </div>
 
+    <!-- ABOUT -->
     <div class="text-columns">
       <span class="col-label">About</span>
       <div class="col-content">
@@ -108,27 +139,43 @@
       </div>
     </div>
 
-    <!-- Projection + audience -->
-    <div class="wide-image" style="margin-bottom:1px;">
-      <img src="luna_projection.jpg" alt="Live projection on Blokhuispoort walls — glitchy colourful AI-generated imagery projected on the former prison facade at night" />
-      <span style="position:absolute;bottom:1.5rem;left:1.5rem;font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--off-white);opacity:0.5;">Spatial projection — Blokhuispoort, Leeuwarden — LUNA 2019</span>
+    <!-- FINAL RENDERED VIDEO — full width -->
+    <div class="video-slot" style="margin-bottom:1px;">
+      <iframe src="https://www.youtube.com/embed/IasL0Ck19MM" title="Des-illu(minat)/s-ion(s) — final rendered video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;border:none;"></iframe>
     </div>
-    <div class="image-grid-3" style="margin-bottom:5rem;">
-      <div class="image-slot">
-        <img src="luna_audience.png" alt="Audience watching spatial projection at night — couple from behind with colourful building in distance" style="object-fit:cover;object-position:0% center;" />
-        <span class="image-slot-label">Audience — LUNA Festival, Leeuwarden</span>
+    <!-- TWO DOCUMENTATION VIDEOS side by side -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:5rem;background:var(--border);">
+      <div style="background:#0a0a12;aspect-ratio:16/9;position:relative;overflow:hidden;">
+        <iframe src="https://www.youtube.com/embed/Fx7Rhxvw5zg" title="LUNA — documentation 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;border:none;"></iframe>
       </div>
-      <div class="image-slot">
-        <img src="luna_audience.png" alt="Audience photographing the projection at night" style="object-fit:cover;object-position:50% center;" />
-        <span class="image-slot-label">Public — photographing the work</span>
-      </div>
-      <div class="image-slot">
-        <img src="luna_audience.png" alt="Child watching the projection alone at night" style="object-fit:cover;object-position:100% center;" />
-        <span class="image-slot-label">Blokhuispoort projection — 2019</span>
+      <div style="background:#0a0a12;aspect-ratio:16/9;position:relative;overflow:hidden;">
+        <iframe src="https://www.youtube.com/embed/Ha4wKGbXrhY" title="LUNA — documentation 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;position:absolute;inset:0;border:none;"></iframe>
       </div>
     </div>
 
-    <!-- Process steps with archival context -->
+    <!-- AUDIENCE PHOTOS — 4 new images -->
+    <div class="image-grid-2" style="margin-bottom:1px;">
+      <div class="image-slot" onclick="openLightbox('luna_img1196.jpg')">
+        <img src="luna_img1196.jpg" alt="Audience watching the projection — Blokhuispoort, LUNA 2019" />
+        <span class="image-slot-label">Audience — Blokhuispoort, LUNA 2019</span>
+      </div>
+      <div class="image-slot" onclick="openLightbox('luna_img1187.jpg')">
+        <img src="luna_img1187.jpg" alt="Public experiencing the projection at night" />
+        <span class="image-slot-label">Public — LUNA Festival 2019</span>
+      </div>
+    </div>
+    <div class="image-grid-2" style="margin-bottom:5rem;">
+      <div class="image-slot" onclick="openLightbox('luna_img1193.jpg')">
+        <img src="luna_img1193.jpg" alt="Visitors at the projection — Leeuwarden" />
+        <span class="image-slot-label">Visitors — Blokhuispoort</span>
+      </div>
+      <div class="image-slot" onclick="openLightbox('luna_img1207.jpg')">
+        <img src="luna_img1207.jpg" alt="Audience close-up — LUNA Festival 2019" />
+        <span class="image-slot-label">LUNA Festival — 2019</span>
+      </div>
+    </div>
+
+    <!-- PROCESS STEPS -->
     <div class="process-steps">
       <div class="step">
         <span class="step-num">01</span>
@@ -160,27 +207,27 @@
       </div>
     </div>
 
-    <!-- Process documentation images -->
-    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:1px;">
-      <img src="luna_process.png" alt="Process documentation — 3D photogrammetry models of Leeuwarden, ML output stills, historical archive images" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
+    <!-- PROCESS DOCUMENTATION -->
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:1px;cursor:zoom-in;" onclick="openLightbox('luna_process.png')">
+      <img src="luna_process.png" alt="Process documentation — 3D photogrammetry models, ML output stills, historical archive images" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
     </div>
-    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:5rem;">
+    <div class="wide-image" style="height:auto;min-height:0;padding:0;margin-bottom:5rem;cursor:zoom-in;" onclick="openLightbox('luna_archives.jpg')">
       <img src="luna_archives.jpg" alt="Research process — archival institutions, Blokhuispoort history, historical photographs" style="object-fit:contain;background:#f5f5f2;width:100%;height:auto;display:block;" />
     </div>
 
-    <!-- Video stills / screen content -->
+    <!-- SCREEN STILLS + CONCEPT -->
     <div class="image-grid-2" style="margin-bottom:5rem;">
-      <div class="image-slot wide-ratio">
-        <img src="luna_screens.png" alt="AI-generated moving image content — left screen: glitched archival figures with Dutch text; right: colourised historical crowd" style="object-fit:contain;background:#050508;" />
+      <div class="image-slot wide-ratio" onclick="openLightbox('luna_screens.png')">
+        <img src="luna_screens.png" alt="AI-generated moving image content — glitched archival figures, colourised historical crowd" style="object-fit:contain;background:#050508;" />
         <span class="image-slot-label">Moving image — AI-generated narrative</span>
       </div>
-      <div class="image-slot wide-ratio" style="background:#050508;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:2rem;">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--off-white);opacity:0.7;text-align:center;line-height:1.4;">Duo: Arvustin Caramdersson</span>
-        <span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:var(--warm-mid);opacity:0.5;text-align:center;">Hannes Arvid Andersson<br>& Agustín Martínez Caram</span>
-        <span style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:var(--accent);opacity:0.6;margin-top:1rem;text-align:center;">Noordenaars · ILO</span>
+      <div class="image-slot wide-ratio" onclick="openLightbox('luna_concept.png')">
+        <img src="luna_concept.png" alt="Des-illu(minat)/s-ion(s) — concept overview" style="object-fit:contain;background:#f5f5f2;" />
+        <span class="image-slot-label">Project concept — Des-illu(minat)/s-ion(s)</span>
       </div>
     </div>
 
+    <!-- DUO -->
     <div class="text-columns">
       <span class="col-label">Duo</span>
       <div class="col-content">
@@ -209,5 +256,21 @@
     <a href="index.html">Back to Portfolio ↑</a>
   </div>
 
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.getElementById('lightbox-img').src = '';
+    }
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
 </html>
